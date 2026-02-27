@@ -19,7 +19,7 @@ export const authOptions = {
           username: credentials.username 
         });
 
-        if (user) {
+        if (user && user.isAdmin === true) {
           const isPasswordCorrect = await bcrypt.compare(
             credentials.password, 
             user.password
@@ -27,31 +27,39 @@ export const authOptions = {
 
           if (isPasswordCorrect) {
             return { 
-              id: user._id, 
+              id: user._id.toString(), 
               name: user.name, 
               email: user.email, 
-              username: user.username 
+              username: user.username,
+              isAdmin: user.isAdmin
             };
           }
         }
+        
         return null;
       }
     })
   ],
   callbacks: {
     async session({ session, token }) {
-      session.user.username = token.username;
+      if (token) {
+        session.user.username = token.username;
+        session.user.id = token.id;
+        session.user.isAdmin = token.isAdmin;
+      }
       return session;
     },
     async jwt({ token, user }) {
       if (user) {
         token.username = user.username;
+        token.id = user.id;
+        token.isAdmin = user.isAdmin;
       }
       return token;
     }
   },
   pages: {
-    signIn: '/login',
+    signIn: '/login', 
   },
   secret: process.env.NEXTAUTH_SECRET,
 };

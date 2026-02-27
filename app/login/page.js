@@ -6,10 +6,14 @@ import { useRouter } from "next/navigation";
 export default function LoginPage() {
   const [form, setForm] = useState({ username: "", password: "" });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
+    
     const res = await signIn("credentials", {
       username: form.username,
       password: form.password,
@@ -18,42 +22,55 @@ export default function LoginPage() {
 
     if (res.error) {
       setError("Invalid admin credentials");
+      setLoading(false);
     } else {
       router.push("/");
     }
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#061621]">
-      <div className="w-full max-w-md bg-[#11232e] p-8 rounded-lg border border-gray-700 shadow-xl">
-        <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-white uppercase tracking-widest">Admin Portal</h1>
-          <p className="text-gray-400 text-sm mt-2">Manage kanban_db Collections</p>
+    <div className="min-h-screen flex items-center justify-center bg-[#F1F3F6] p-4 text-slate-800">
+      <div className="bg-white p-10 md:p-12 rounded-[3rem] shadow-2xl w-full max-w-md border border-white">
+        <div className="flex justify-center mb-6">
+          {/* Ensure this path is correct in your admin public folder */}
+          <img src="/ipick-logo-navbar.png" alt="iPick Admin" className="h-20 object-contain" />
         </div>
-        
-        {error && <p className="bg-red-500/10 border border-red-500 text-red-500 p-3 rounded mb-4 text-sm text-center">{error}</p>}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <h1 className="text-3xl font-black mb-2 text-[#12A55C] uppercase text-center tracking-tighter">Admin Portal</h1>
+        <p className="text-slate-400 mb-8 text-center text-sm font-medium">Manage team database and collections</p>
+
+        {error && (
+          <div className="mb-6 bg-[#9E2A2B]/10 text-[#9E2A2B] text-xs font-bold py-3 px-4 rounded-xl text-center border border-[#9E2A2B]/20">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Username</label>
             <input
               type="text"
-              className="w-full bg-[#061621] border border-gray-700 rounded p-3 text-white focus:border-green-500 outline-none"
+              placeholder="Admin Username"
+              className="w-full p-4 bg-slate-50 rounded-2xl outline-none focus:border-[#12A55C] border-2 border-transparent transition-colors"
               onChange={(e) => setForm({ ...form, username: e.target.value })}
               required
             />
           </div>
           <div>
-            <label className="block text-gray-400 text-xs font-bold uppercase mb-2">Password</label>
             <input
               type="password"
-              className="w-full bg-[#061621] border border-gray-700 rounded p-3 text-white focus:border-green-500 outline-none"
+              placeholder="Password"
+              className="w-full p-4 bg-slate-50 rounded-2xl outline-none focus:border-[#12A55C] border-2 border-transparent transition-colors"
               onChange={(e) => setForm({ ...form, password: e.target.value })}
               required
             />
           </div>
-          <button type="submit" className="w-full bg-[#00684a] hover:bg-[#005c41] text-white font-bold py-3 rounded transition uppercase text-sm tracking-widest">
-            Sign In
+
+          <button
+            disabled={loading}
+            type="submit"
+            className="w-full bg-[#12A55C] text-white font-black py-5 rounded-[2rem] hover:bg-[#0e8549] transition-all uppercase tracking-widest text-sm shadow-xl shadow-[#12A55C]/20 disabled:bg-slate-300"
+          >
+            {loading ? "Authenticating..." : "Sign In to Dashboard"}
           </button>
         </form>
       </div>
