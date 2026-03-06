@@ -16,7 +16,6 @@ interface SafeUser {
     createdAt: Date | null;
 }
 
-// GET /api/admin/users — Fetch all users (sanitized, no passwords)
 export async function GET(): Promise<NextResponse> {
     const { error } = await requireAdmin();
     if (error) return error;
@@ -45,7 +44,6 @@ export async function GET(): Promise<NextResponse> {
     }
 }
 
-// PATCH /api/admin/users — Approve or reject a user account
 export async function PATCH(request: NextRequest): Promise<NextResponse> {
     const { error } = await requireAdmin();
     if (error) return error;
@@ -80,7 +78,6 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
     }
 }
 
-// DELETE /api/admin/users — Remove a user and all their data
 export async function DELETE(request: NextRequest): Promise<NextResponse> {
     const { error } = await requireAdmin();
     if (error) return error;

@@ -20,7 +20,6 @@ if (process.env.MONGODB_URI) {
         clientPromise = client.connect();
     }
 } else {
-    // Deferred connection — will throw at runtime if accessed without env var
     clientPromise = new Promise((_, reject) => {
         reject(new Error("Please add your Mongo URI to .env.local"));
     });

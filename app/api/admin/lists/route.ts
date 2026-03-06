@@ -19,7 +19,6 @@ interface TaskCountEntry {
     completed: number;
 }
 
-// GET /api/admin/lists — Fetch all lists with owner info and task counts
 export async function GET(): Promise<NextResponse> {
     const { error } = await requireAdmin();
     if (error) return error;
@@ -111,7 +110,6 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
     }
 }
 
-// DELETE /api/admin/lists — Delete a list and its tasks
 export async function DELETE(request: NextRequest): Promise<NextResponse> {
     const { error } = await requireAdmin();
     if (error) return error;

@@ -49,7 +49,6 @@ export default function AdminDashboard() {
     const [taskFilter, setTaskFilter] = useState("all");
     const [searchQuery, setSearchQuery] = useState("");
 
-    // Editing states
     const [editingListId, setEditingListId] = useState<string | null>(null);
     const [editingListName, setEditingListName] = useState("");
     const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
@@ -85,7 +84,6 @@ export default function AdminDashboard() {
         }
     }, []);
 
-    // ─── User Actions ───
     const handleApproveUser = async (userId: string) => {
         if (!confirm("Approve this user? They will be able to log in to the kanban board.")) return;
         setActionLoading(userId);
@@ -142,7 +140,6 @@ export default function AdminDashboard() {
         }
     };
 
-    // ─── List Actions ───
     const handleRenameList = async (listId: string) => {
         if (!editingListName.trim()) return;
         setActionLoading(listId);
@@ -179,7 +176,6 @@ export default function AdminDashboard() {
         }
     };
 
-    // ─── Task Actions ───
     const handleEditTask = async (taskId: string) => {
         if (!editingTaskText.trim()) return;
         setActionLoading(taskId);
@@ -215,7 +211,6 @@ export default function AdminDashboard() {
         }
     };
 
-    // ─── Derived Data ───
     const pendingUsers = users.filter((u) => !u.isVerifiedByAdmin && !u.isAdmin);
     const approvedUsers = users.filter((u) => u.isVerifiedByAdmin && !u.isAdmin);
     const adminUsers = users.filter((u) => u.isAdmin);
@@ -254,8 +249,8 @@ export default function AdminDashboard() {
                             key={item.key}
                             onClick={() => setActiveTab(item.key)}
                             className={`w-full text-left px-5 py-4 rounded-2xl mb-2 font-bold transition-all text-sm flex items-center gap-3 ${activeTab === item.key
-                                    ? "bg-[#12A55C] text-white shadow-lg shadow-[#12A55C]/20"
-                                    : "text-slate-500 hover:bg-slate-50 hover:text-[#12A55C]"
+                                ? "bg-[#12A55C] text-white shadow-lg shadow-[#12A55C]/20"
+                                : "text-slate-500 hover:bg-slate-50 hover:text-[#12A55C]"
                                 }`}
                         >
                             <item.icon size={18} />
@@ -574,8 +569,8 @@ export default function AdminDashboard() {
                                                     key={f.key}
                                                     onClick={() => setTaskFilter(f.key)}
                                                     className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-wider transition-colors ${taskFilter === f.key
-                                                            ? "bg-[#12A55C] text-white"
-                                                            : "bg-white text-slate-400 border border-slate-200 hover:bg-slate-100"
+                                                        ? "bg-[#12A55C] text-white"
+                                                        : "bg-white text-slate-400 border border-slate-200 hover:bg-slate-100"
                                                         }`}
                                                 >
                                                     {f.label}

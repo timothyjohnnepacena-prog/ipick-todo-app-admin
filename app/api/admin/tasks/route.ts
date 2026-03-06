@@ -17,7 +17,6 @@ interface SafeTask {
     order: number;
 }
 
-// GET /api/admin/tasks — Fetch all tasks with owner display names
 export async function GET(): Promise<NextResponse> {
     const { error } = await requireAdmin();
     if (error) return error;
@@ -92,7 +91,6 @@ export async function GET(): Promise<NextResponse> {
     }
 }
 
-// PATCH /api/admin/tasks — Edit a task's text
 export async function PATCH(request: NextRequest): Promise<NextResponse> {
     const { error } = await requireAdmin();
     if (error) return error;
@@ -128,7 +126,6 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
     }
 }
 
-// DELETE /api/admin/tasks — Delete a task
 export async function DELETE(request: NextRequest): Promise<NextResponse> {
     const { error } = await requireAdmin();
     if (error) return error;
